@@ -1,6 +1,10 @@
 import numpy as np
 
 
+def calculate_rmse(actual, predicted):
+    return np.sqrt(np.mean((actual-predicted)**2))
+
+
 def generate_data(l_bound: float, r_bound: float, n: int) -> np.array:
     x = np.linspace(l_bound, r_bound, n)
     delta = np.random.uniform(-5, 5, x.size)
