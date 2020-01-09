@@ -2,26 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def calculate_rmse(actual, predicted):
-    return np.sqrt(np.mean((actual-predicted)**2))
-
-
-def generate_data(l_bound: float, r_bound: float, n: int) -> np.array:
-    x = np.linspace(l_bound, r_bound, n)
-    delta = np.random.uniform(-5, 5, x.size)
-    y = 0.4 * x + 3 + delta
-    return np.array(list(zip(x, y)))
-
-
-def generate_data3d(l_bound: float, r_bound: float, n: int) -> np.array:
-    x1 = np.linspace(l_bound, r_bound, n)
-    delta_x2 = np.random.uniform(-3, 3, x1.size)
-    x2 = 0.7 * x1 + 3 + delta_x2
-    delta_y = np.random.uniform(-5, 5, x1.size)
-    y = 0.4 * x1 + 1.1 * x2 + 3 + delta_y
-    return np.array(list(zip(x1, x2, y)))
-
-
 class LinearRegression:
     def __init__(self) -> None:
         self._b = None
@@ -69,6 +49,26 @@ class RidgeRegression:
     @property
     def b(self):
         return self._b
+
+
+def calculate_rmse(actual, predicted):
+    return np.sqrt(np.mean((actual-predicted)**2))
+
+
+def generate_data(l_bound: float, r_bound: float, n: int) -> np.array:
+    x = np.linspace(l_bound, r_bound, n)
+    delta = np.random.uniform(-5, 5, x.size)
+    y = 0.4 * x + 3 + delta
+    return np.array(list(zip(x, y)))
+
+
+def generate_data3d(l_bound: float, r_bound: float, n: int) -> np.array:
+    x1 = np.linspace(l_bound, r_bound, n)
+    delta_x2 = np.random.uniform(-3, 3, x1.size)
+    x2 = 0.7 * x1 + 3 + delta_x2
+    delta_y = np.random.uniform(-5, 5, x1.size)
+    y = 0.4 * x1 + 1.1 * x2 + 3 + delta_y
+    return np.array(list(zip(x1, x2, y)))
 
 
 def make_coef_plot(data, check_data):
