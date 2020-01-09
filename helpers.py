@@ -27,42 +27,9 @@ class LinearRegression:
 
     def fit(self, data: np.array) -> None:
         m = np.shape(data)[0]
-        x = np.array([np.ones(m), data[:, 0]]).T
-        print(x)
-        y = np.array(data[:, 1]).T
-        print(y)
-        p_mat = np.linalg.inv(x.T.dot(x)).dot(x.T).dot(y)
-        self._b = np.copy(p_mat)
-
-    def predict(self, x_pred: list) -> list:
-        if self._b is None:
-            raise Exception('Not trained yet')
-        y_res = []
-        for x in x_pred:
-            _x = [1, *x]
-            if len(_x) != len(self._b):
-                raise Exception('Mismatch')
-            y = sum(new_x * b for new_x, b in zip(_x, self._b))
-            y_res.append(y)
-        return y_res
-
-    @property
-    def b(self):
-        return self._b
-
-
-class LinearRegression3d:
-    def __init__(self) -> None:
-        self._b = None
-
-    def fit(self, data: np.array) -> None:
-        m = np.shape(data)[0]
         x = np.append(np.ones(m).reshape((m, 1)), data[:, :-1], axis=1)
-        #print('x', x)
         y = np.array(data[:, -1]).T
-        #print('y', y)
         p_mat = np.linalg.inv(x.T.dot(x)).dot(x.T).dot(y)
-        #print(p_mat)
         self._b = np.copy(p_mat)
 
     def predict(self, x_pred: list) -> list:
