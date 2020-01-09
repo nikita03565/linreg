@@ -58,11 +58,11 @@ class LinearRegression3d:
     def fit(self, data: np.array) -> None:
         m = np.shape(data)[0]
         x = np.append(np.ones(m).reshape((m, 1)), data[:, :-1], axis=1)
-        print('x', x)
+        #print('x', x)
         y = np.array(data[:, -1]).T
-        print('y', y)
+        #print('y', y)
         p_mat = np.linalg.inv(x.T.dot(x)).dot(x.T).dot(y)
-        print(p_mat)
+        #print(p_mat)
         self._b = np.copy(p_mat)
 
     def predict(self, x_pred: list) -> list:

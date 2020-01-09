@@ -4,8 +4,8 @@ from helpers import generate_data, LinearRegression, calculate_rmse, SolveRidgeR
 
 # data range and number of points
 l_bound = 0
-r_bound = 10
-n = 10
+r_bound = 100
+n = 1000
 data = generate_data(l_bound, r_bound, n)
 
 linreg = LinearRegression()
