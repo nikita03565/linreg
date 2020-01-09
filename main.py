@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from helpers import generate_data, LinearRegression, calculate_rmse
+from helpers import generate_data, LinearRegression, calculate_rmse, SolveRidgeRegression
 
 # data range and number of points
 l_bound = 0
-r_bound = 100
-n = 100
+r_bound = 10
+n = 10
 data = generate_data(l_bound, r_bound, n)
 
 linreg = LinearRegression()
@@ -23,6 +23,9 @@ pred_y = linreg.predict(pred_x)
 
 rmse = calculate_rmse(actual_y, pred_y)
 print('rmse:', rmse)
+
+# a, b = SolveRidgeRegression(data[:, 0], data[:, 1])
+#print(a, b)
 
 plt.figure(1)
 plt.plot(xx, yy.T, color='tab:blue')
