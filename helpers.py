@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def calculate_rmse(actual, predicted):
@@ -52,13 +53,11 @@ class LinearRegression:
 def SolveRidgeRegression(X, y):
     wRR_list = []
     df_list = []
-    for i in range(0, 5001, 1):
+    for i in range(1000):
+        print(i)
         lam_par = i
-        print('x', X)
         xtranspose = np.transpose(X)
-        print('xt', xtranspose)
-        xtransx = np.full((1, 1), np.dot(xtranspose, X))
-        print('xtx', xtransx)
+        xtransx = np.dot(xtranspose, X)
         if xtransx.shape[0] != xtransx.shape[1]:
             raise ValueError('Needs to be a square matrix for inverse')
         lamidentity = np.identity(xtransx.shape[0]) * lam_par
@@ -70,3 +69,41 @@ def SolveRidgeRegression(X, y):
         wRR_list.append(wRR)
         df_list.append(df)
     return wRR_list, df_list
+
+
+def makeDFPlots(dfArray, wRRArray):
+    #print wRR_array.shape, df_array.shape
+    plt.figure()
+    colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628']
+    labels = ["Dimension 1", "Dimension 2", "Dimension 3", "Dimension 4 (car weight)", "Dimension 5", "Dimension 6 (car year)", "Dimension 7"]
+    for i in range(0, wRRArray[0].shape[0]):
+        plt.plot(dfArray, wRRArray[:,i], color = colors[i])
+        plt.scatter(dfArray, wRRArray[:,i], color = colors[i], s = 8, label=labels[i])
+    # df(lambda)
+    plt.xlabel(r"df($\lambda$)")
+    # and a legend
+    plt.legend(loc='lower left')
+    plt.show()
+
+
+def plotRMSEValue(max_lamda, RMSE_list, poly):
+    colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628']
+    legend = ["Polynomial Order, p = 1", "Polynomial Order, p = 2", "Polynomial Order, p = 3"]
+    plt.plot(range(len(RMSE_list)), RMSE_list, color = colors[poly])
+    plt.scatter(range(len(RMSE_list)), RMSE_list, color = colors[poly] , s = 8, label= legend[poly-1])
+    # df(lambda)
+    plt.xlabel(r"$\lambda$")
+    plt.ylabel("RMSE")
+    # and a legend
+    plt.legend(loc='upper left')
+    plt.title(r"RMSE vs $\lambda$ values for the test set, $\lambda$ = 0..%d"%(max_lamda))
+
+
+def getRMSEValues(X_test, y_test, wRRArray, max_lamda, poly):
+    RMSE_list = []
+    for lamda in range(0, max_lamda+1):
+        wRRvals = wRRArray[lamda]
+        y_pred = np.dot(X_test, wRRvals)
+        RMSE = np.sqrt(np.sum(np.square(y_test - y_pred))/len(y_test))
+        RMSE_list.append(RMSE)
+    plotRMSEValue(max_lamda, RMSE_list, poly=poly)
